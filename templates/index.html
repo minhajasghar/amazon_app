@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Amazon Review Sentiment Analyzer</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script>
+
+    const sentimentLabel = "{{ label }}";
+  </script>
+  <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Amazon Review Sentiment Analyzer</h1>
+    <form method="POST">
+      <textarea name="review" placeholder="Paste your product review here..." required>{{ request.form.review }}</textarea>
+      <button type="submit" class="animated-btn">Analyze Sentiment</button>
+    </form>
+
+    {% if label %}
+      <div class="result-box">
+        <h2>Sentiment: <span class="highlight">{{ label }}</span></h2>
+        <div class="stars"></div> 
+      </div>
+    {% endif %}
+  </div>
+
+
+  {% if label %}
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const labelToStars = {
+          "Highly Satisfied": 5,
+          "Satisfied": 4,
+          "Neither best nor bad Product": 3,
+          "Not good product": 2,
+          "Disgusting product": 0
+        };
+        animateStars(labelToStars[sentimentLabel] || 0);
+      });
+    </script>
+  {% endif %}
+</body>
+</html>
